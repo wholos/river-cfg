@@ -1,0 +1,29 @@
+#!/bin/sh
+riverctl map normal Super Z spawn alacritty
+riverctl map normal Super C close
+riverctl map normal Super R spawn wmenu-run
+
+riverctl map normal Super+Shift Q exit
+
+riverctl default-layout rivertile
+rivertile -view-padding 0 -outer-padding 0 &
+
+riverctl spawn "$HOME/.config/river/status"
+riverctl spawn "$HOME/.config/river/bar"
+
+wireplumber &
+pipewire-pulse &
+pipewire &
+wlr-randr --output HDMI-A-1 --mode 1366x768 &
+swaybg -o \* -i /home/nikita/.wallpapers/azov.jpg -m fill &
+
+riverctl keyboard-layout -options "grp:win_space_toggle" "us,ru"
+
+riverctl map normal Super A spawn screenriver
+
+riverctl map normal Super M spawn woomer
+
+for i in $(seq 1 9); do
+	riverctl map normal Super $i set-focused-tags $((1 << ($i - 1)))
+	riverctl map normal Super+Shift $i set-view-tags $((1 << ($i - 1)))
+done
